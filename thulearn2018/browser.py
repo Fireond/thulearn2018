@@ -210,7 +210,9 @@ class Learn():
         # delete expired homework by comparing ddl[2] with current time
         ddls = [ddl for ddl in ddls if not utils.expired(ddl[2])]
         ddls.sort(key=lambda x: x[2])
-        return [[ddl[0], ddl[1], ddl[2], utils.time_delta(ddl[2]), ddl[3]]
+        # lesson, homework_title, deadline, time_left, filename+file size, color
+        return [[ddl[0], ddl[1], ddl[2],
+                 utils.time_delta(ddl[2])[0], ddl[3], utils.time_delta(ddl[2])[1]]
                 for ddl in ddls]
 
 

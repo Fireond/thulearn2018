@@ -4,6 +4,17 @@ import os
 import click
 from . import browser
 
+Colors = {
+    "BLUE" : '\033[94m',
+    "GREEN" : '\033[92m',
+    "YELLOW" : '\033[93m',
+    "ORANGE" : '\033[38;2;255;165;0m',  # 使用 RGB 值表示近似橘色
+    "RED" : '\033[91m',
+    "BOLD" : '\033[1m',
+    "UNDERLINE" : '\033[4m',
+    "END" : '\033[0m',
+        }
+
 learn = browser.Learn()
 
 
@@ -91,10 +102,13 @@ def ddl(exclude, include, semester, path):
     ddls = learn.get_ddl(learn.init_lessons(
         exclude=exclude.split(',') if exclude else [],
         include=include.split(',') if include else []))
-    print('Total %d ddl(s)' % (len(ddls)))
+    # print('Total %d ddl(s)' % (len(ddls)))
     for ddl in ddls:
-        print(align(ddl[0][0:8], 25), align(
-            ddl[1][0:20], 30) + align(ddl[3][0:20], 30), ddl[4])
+        text = align(ddl[0][0:8], 14) + align(ddl[1][0:20], 26) \
+        + align(ddl[3][0:20], 20)+ddl[4]
+        color = Colors[ddl[5]] if ddl[4] == "未交" else Colors["GREEN"]
+        text = color + text + Colors['END']
+        print(text)
 
 
 @click.group()
